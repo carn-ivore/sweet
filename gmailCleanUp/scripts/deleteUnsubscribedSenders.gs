@@ -1,41 +1,28 @@
-function findUnsubscribeSenders() {
-  var threads = GmailApp.search('in:inbox');
-  var senders = {};
+function deleteUnsubscribedSenders() {
+  var unsubscribedSenders = [
+    // Add the email addresses of the senders you've unsubscribed from here.
+    // Example: "newsletter@example.com", "promotions@shop.com"
+  ];
+  var exceptionSenders = [
+    //Add any senders you always want to keep emails from here.
+    //Example: "businesscontact@work.com"
+  ];
 
-  for (var i = 0; i < threads.length; i++) {
-    var messages = threads[i].getMessages();
-    for (var j = 0; j < messages.length; j++) {
-      var message = messages[j];
-      var from = message.getFrom();
-      var body = message.getPlainBody();
+  for (var i = 0; i < unsubscribedSenders.length; i++) {
+    var sender = unsubscribedSenders[i];
+    var threads = GmailApp.search('from:' + sender);
 
-      if (!senders[from]) {
-        if (body.toLowerCase().indexOf('unsubscribe') !== -1) {
-          senders[from] = message.getPermalink();
+    for (var j = 0; j < threads.length; j++) {
+      var messages = threads[j].getMessages();
+      var keep = false;
+      for(var k = 0; k < exceptionSenders.length; k++){
+        if(messages[0].getFrom() == exceptionSenders[k]){
+          keep = true;
         }
+      }
+      if(!keep){
+        threads[j].moveToTrash();
       }
     }
   }
-
-  createDoc(senders);
 }
-
-function createDoc(senders){
-  var doc = DocumentApp.create('Unsubscribe and Delete');
-  var body = doc.getBody();
-  body.appendParagraph('Senders with Unsubscribe Options:');
-
-  for (var sender in senders) {
-    var unsubscribeLink = senders[sender];
-    var searchLink =
-      'https://mail.google.com/mail/u/0/#search/from%3A' +
-      encodeURIComponent(sender) +
-      '+in%3Ainbox&cv=8';
-
-    var paragraph = body.appendParagraph(sender + ": ");
-    paragraph.appendText("Unsubscribe").setLinkUrl(unsubscribeLink);
-    paragraph.appendText(" | ");
-    paragraph.appendText("Delete All").setLinkUrl(searchLink);
-  }
-}
-
