@@ -38,35 +38,42 @@ function createDoc(senders) {
     paragraph.appendText("Delete All").setLinkUrl(searchLink);
   }
 }
-function removeCv8FromLinks(docId) {
-  var doc = DocumentApp.openById(docId);
+```javascript
+function removeParameterFromLinks() {
+  // Get the active document
+  var doc = DocumentApp.getActiveDocument();
+  
+  // Get the document body
   var body = doc.getBody();
+  
+  // Process all paragraphs in the document
   var paragraphs = body.getParagraphs();
-
   for (var i = 0; i < paragraphs.length; i++) {
     var paragraph = paragraphs[i];
-    if (paragraph.getLinkUrl()) {
-      var currentUrl = paragraph.getLinkUrl();
-      var newUrl = currentUrl.replace('&cv=8', '');
-      if (newUrl !== currentUrl) {
-        paragraph.setLinkUrl(newUrl);
-      }
-    }
-    var runs = paragraph.getRuns();
-    for(var j = 0; j < runs.length; j++){
-      var run = runs[j];
-      if(run.getLinkUrl()){
-        var currentRunUrl = run.getLinkUrl();
-        var newRunUrl = currentRunUrl.replace('&cv=8', '');
-        if(newRunUrl !== currentRunUrl){
-          run.setLinkUrl(newRunUrl);
+    var text = paragraph.editAsText();
+    
+    // Process each character in the paragraph
+    for (var j = 0; j < text.getText().length; j++) {
+      var url = text.getLinkUrl(j);
+      
+      // If there's a URL and it contains "&cv=8"
+      if (url && url.indexOf("&cv=8") !== -1) {
+        // Find the range for this URL
+        var startPos = j;
+        while (j < text.getText().length && text.getLinkUrl(j) === url) {
+          j++;
         }
+        var endPos = j - 1;
+        
+        // Create the new URL without "&cv=8"
+        var newUrl = url.replace(/&cv=8/g, "");
+        
+        // Replace the old URL with the new one for this range
+        text.setLinkUrl(startPos, endPos, newUrl);
       }
     }
   }
+  
+  Logger.log("All '&cv=8' parameters have been removed from URLs.");
 }
-
-function testRemoveCv8() {
-  var docId = 'YOUR_DOCUMENT_ID'; // Replace with your document ID
-  removeCv8FromLinks(docId);
-}
+```
