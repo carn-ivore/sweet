@@ -11,7 +11,7 @@ function findUnsubscribeSenders() {
 
       if (!senders[from]) {
         if (body.toLowerCase().indexOf('unsubscribe') !== -1) {
-          senders[from] = message.getPermalink();
+          senders[from] = threads[i].getPermalink(); // Corrected line
         }
       }
     }
@@ -20,7 +20,7 @@ function findUnsubscribeSenders() {
   createDoc(senders);
 }
 
-function createDoc(senders){
+function createDoc(senders) {
   var doc = DocumentApp.create('Unsubscribe and Delete');
   var body = doc.getBody();
   body.appendParagraph('Senders with Unsubscribe Options:');
@@ -38,4 +38,3 @@ function createDoc(senders){
     paragraph.appendText("Delete All").setLinkUrl(searchLink);
   }
 }
-
