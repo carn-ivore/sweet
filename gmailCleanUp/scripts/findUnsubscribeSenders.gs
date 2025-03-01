@@ -38,3 +38,35 @@ function createDoc(senders) {
     paragraph.appendText("Delete All").setLinkUrl(searchLink);
   }
 }
+function removeCv8FromLinks(docId) {
+  var doc = DocumentApp.openById(docId);
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (paragraph.getLinkUrl()) {
+      var currentUrl = paragraph.getLinkUrl();
+      var newUrl = currentUrl.replace('&cv=8', '');
+      if (newUrl !== currentUrl) {
+        paragraph.setLinkUrl(newUrl);
+      }
+    }
+    var runs = paragraph.getRuns();
+    for(var j = 0; j < runs.length; j++){
+      var run = runs[j];
+      if(run.getLinkUrl()){
+        var currentRunUrl = run.getLinkUrl();
+        var newRunUrl = currentRunUrl.replace('&cv=8', '');
+        if(newRunUrl !== currentRunUrl){
+          run.setLinkUrl(newRunUrl);
+        }
+      }
+    }
+  }
+}
+
+function testRemoveCv8() {
+  var docId = 'YOUR_DOCUMENT_ID'; // Replace with your document ID
+  removeCv8FromLinks(docId);
+}
