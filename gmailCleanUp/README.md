@@ -6,33 +6,38 @@ This repository contains Google Apps Scripts designed to automate common Gmail t
 
 ### `findUnsubscribeSenders.gs`
 
-This script scans your Gmail inbox and identifies unique senders with "unsubscribe" links or keywords. It then creates a Google Doc with links to the most recent email from each sender, allowing you to quickly unsubscribe. It also creates a link that will select all emails from that sender for easy deletion.
+This script scans your Gmail inbox and identifies unique senders with "unsubscribe" links or keywords. It then creates a Google Doc with links to the most recent email from each sender, allowing you to quickly unsubscribe. It also creates a link that will search for all emails from that sender.
 
 ### `deleteUnsubscribedSenders.gs`
 
-This script allows you to delete all emails from senders you've unsubscribed from. You will need to edit the script to add the senders email addresses to the unsubscribedSenders array.
+This script allows you to delete all emails from senders you've unsubscribed from. You will need to edit the script to add the senders' email addresses to the `unsubscribedSenders` array.
 
 ## Installation and Usage
 
 1.  **Open Google Apps Script:**
-    * Go to your Gmail account.
-    * Click the settings gear icon (⚙️) in the top right.
-    * Click "See all settings."
-    * Click the "Advanced" tab.
-    * Make sure "Google Apps Script" is enabled.
-    * Click tools, then script editor.
-2.  **Copy and Paste:**
-    * Copy the contents of the desired script file (e.g., `findUnsubscribeSenders.gs`) from this repository.
-    * Paste the code into the Google Apps Script editor.
-3.  **Save the Script:**
-    * Click the save icon (💾) and give your script a descriptive name (e.g., "Find Unsubscribe Senders").
-4.  **Run the Script:**
-    * Select the desired function from the dropdown menu (e.g., `findUnsubscribeSenders`).
+    * Open a new browser tab or window.
+    * Go to [script.google.com](https://script.google.com).
+    * Make sure you are logged into the same Google account as your Gmail.
+
+2.  **Create a New Project (if needed):**
+    * If you haven't used Google Apps Script before, a new, blank project will open. If you have, you may need to click "New Project".
+
+3.  **Create the Script Files:**
+    * By default, your project will have a file named "Code.gs". You can rename this, or delete it and create a new file.
+    * To create a new file, click the "+" button next to "Files" in the left sidebar, and choose "Script".
+    * Name one file `findUnsubscribeSenders.gs` and the other `deleteUnsubscribedSenders.gs`.
+    * Copy the contents of the respective script file from this repository and paste it into the editor.
+    * Click the save icon (💾).
+
+4.  **Authorize the Scripts:**
+    * When you run either of the scripts for the first time, you will be prompted to authorize them.
+    * To run a script, select the function you want to run from the dropdown menu in the script editor (e.g., `findUnsubscribeSenders`).
     * Click the "Run" button (▶️).
-    * You will be prompted to authorize the script. Grant the necessary permissions.
+    * Follow the on-screen prompts to grant the necessary permissions.
+
 5.  **Follow the Script's Instructions:**
-    * For `findUnsubscribeSenders.gs` open the created google doc, and follow the links to unsubscribe, and then the delete all links.
-    * For `deleteUnsubscribedSenders.gs` edit the script with the needed email addresses, and then run it.
+    * For `findUnsubscribeSenders.gs`, open the created Google Doc, and follow the links to unsubscribe, and then the search links to manually delete the emails.
+    * For `deleteUnsubscribedSenders.gs`, edit the script with the needed email addresses in the `unsubscribedSenders` array, and then run it.
 
 ## Best Practices
 
@@ -62,14 +67,3 @@ Contributions are welcome! If you'd like to contribute to this repository, pleas
 4.  **Submit a Pull Request:** Submit a pull request to the `main` branch of this repository.
 
 Please ensure your code follows best practices and includes appropriate comments.
-
-## Missing Pieces Filled In:
-
-* **Clearer Structure:** The repository is organized for easy navigation and understanding.
-* **Detailed Instructions:** The `README.md` provides comprehensive instructions for installation, usage, and best practices.
-* **Contribution Guidelines:** Clear instructions for reporting issues and submitting pull requests are included.
-* **Best Practices:** The `README.md` emphasizes best practices for using the scripts, including authorization, testing, and error handling.
-* **`.gitignore`:** Added to ignore google app script settings files.
-
-This comprehensive setup will provide a solid foundation for your Gmail automation scripts repository.
-
